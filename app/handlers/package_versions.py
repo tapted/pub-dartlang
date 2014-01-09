@@ -5,9 +5,14 @@
 from cStringIO import StringIO
 from contextlib import closing
 from uuid import uuid4
+import io
 import json
 import logging
+import os
+import tarfile
 import time
+import zipfile
+
 
 import cherrypy
 import routes
@@ -55,6 +60,37 @@ class PackageVersions(object):
             version = handlers.request().package_version(id)
             deferred.defer(self._count_download, version.key())
             raise cherrypy.HTTPRedirect(version.download_url)
+        elif id.endswith('.zip'):
+            id = id[0:-len('.zip')]
+            version = handlers.request().package_version(id)
+            deferred.defer(self._count_download, version.key())
+
+            filename = 'packages/{}-{}.tar.gz'.format(package_id, id)
+            zipfilename = os.path.basename(filename).replace('tar.gz', 'zip')
+
+            cherrypy.response.headers['Content-Type'] = \
+                'application/octet-stream'
+            cherrypy.response.headers['Content-Disposition'] = \
+                'attachment; filename=%s' % zipfilename
+
+            # Read the .tar.gz file from cloud storage into memory, and create
+            # an uncompressed zip from it.
+            try:
+                with cloud_storage.open(filename) as tar_fileobj:
+                    bytes = io.BytesIO()
+                    tar = tarfile.open(fileobj=tar_fileobj)
+                    zip = zipfile.ZipFile(bytes, mode='w')
+
+                    for file_info in tar:
+                        zip.writestr(file_info.name, \
+                            tar.extractfile(file_info).read())
+                    zip.close()
+
+                    bytes.seek(0)
+                    return bytes.read()
+            except KeyError, ExistenceError:
+                handlers.http_error(404)
+
         elif id.endswith('.yaml'):
             id = id[0:-len('.yaml')]
             version = handlers.request().package_version(id)

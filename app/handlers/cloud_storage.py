@@ -26,7 +26,7 @@ from models.private_key import PrivateKey
 _BUCKET = "pub.dartlang.org"
 
 # From https://code.google.com/apis/console
-_ACCESS_KEY = "818368855108@developer.gserviceaccount.com"
+_ACCESS_KEY = "162069532158-pnm07m230g58lsqpg11vns0r3jhi8mqq@developer.gserviceaccount.com"
 
 # From https://developers.google.com/storage/docs/authentication
 _FULL_CONTROL_SCOPE = "https://www.googleapis.com/auth/devstorage.full_control"
