@@ -11,10 +11,10 @@
   <li><a href="#summary">Summary</a></li>
 </ol>
 
-<p>One of pub&rsquo;s main jobs is helping you work with versioning. Here, I&rsquo;ll
-explain a bit about the history of versioning and pub&rsquo;s approach to it.
+<p>One of Tavern&rsquo;s main jobs is helping you work with versioning. Here, I&rsquo;ll
+explain a bit about the history of versioning and Tavern&rsquo;s approach to it.
 Consider this to be advanced information. If you want a better picture of <em>why</em>
-pub was designed the way it was, read on. If you just want to <em>use</em> pub, the
+Tavern was designed the way it was, read on. If you just want to <em>use</em> Tavern, the
 <a href="index.html">other docs</a> will serve you better.</p>
 
 <p>Modern software development, especially web development, leans heavily on
@@ -133,7 +133,7 @@ wiggle room to move our dependencies forward to newer versions. As long as there
 is overlap in their ranges, we can still find a single version that makes them
 both happy.</p>
 
-<p>This is the model that <a href="http://gembundler.com/">bundler</a> follows, and is pub&rsquo;s
+<p>This is the model that <a href="http://gembundler.com/">bundler</a> follows, and is Tavern&rsquo;s
 model too. When you add a dependency in your pubspec, you can specify a <em>range</em>
 of versions that you can accept. If the pubspec for <code>widgets</code> looked like this:</p>
 
@@ -184,10 +184,10 @@ evolution now. Let&rsquo;s see how they play together and what pub does.</p>
 packages it itself uses. For each one, you specify the range of versions it
 allows. Each of those dependent packages may in turn have their own
 dependencies (called
-<a href="glossary.html#transitive-dependency"><strong>transitive dependencies</strong></a>. Pub will
+<a href="glossary.html#transitive-dependency"><strong>transitive dependencies</strong></a>. Tavern will
 traverse these and  build up the entire deep dependency graph for your app.</p>
 
-<p>For each package in the graph, pub looks at everything that depends on it. It
+<p>For each package in the graph, Tavern looks at everything that depends on it. It
 gathers together all of their version constraints and tries to simultaneously
 solve them. (Basically, it intersects their ranges.) Then it looks at the
 actual versions that have been released for that package and selects the best
@@ -211,7 +211,7 @@ packages depend on it. Their version constraints are:</p>
 1.9.0
 </code></pre>
 
-<p>The highest version number that fits in all of those ranges is <code>1.8.2</code>, so pub
+<p>The highest version number that fits in all of those ranges is <code>1.8.2</code>, so Tavern
 picks that. That means your app <em>and every package your app uses</em> will all use
 <code>collections 1.8.2</code>.</p>
 
@@ -259,19 +259,19 @@ containing app.</p>
 
 <h2 id="lockfiles">Lockfiles</h2>
 
-<p>So once pub has solved your app&rsquo;s version constraints, then what? The end
+<p>So once Tavern has solved your app&rsquo;s version constraints, then what? The end
 result is a complete list of every package that your app depends on either
 directly or indirectly and the best version of that package that will work with
 your app&rsquo;s constraints.</p>
 
-<p>Pub takes that and writes it out to a <strong>lockfile</strong> in your app&rsquo;s directory
-called <code>pubspec.lock</code>. When pub builds the &ldquo;packages&rdquo; directory your app, it
+<p>Tavern takes that and writes it out to a <strong>lockfile</strong> in your app&rsquo;s directory
+called <code>pubspec.lock</code>. When Tavern builds the &ldquo;packages&rdquo; directory your app, it
 uses the lockfile to know what versions of each package to pull in. (And if
 you&rsquo;re curious to see what versions it selected, you can read the lockfile to
 find out.)</p>
 
-<p>The next important thing pub does is it <em>stops touching the lockfile</em>. Once
-you&rsquo;ve got a lockfile for your app, pub won&rsquo;t mess with it until you tell it to.
+<p>The next important thing Tavern does is it <em>stops touching the lockfile</em>. Once
+you&rsquo;ve got a lockfile for your app, Tavern won&rsquo;t mess with it until you tell it to.
 This is important. It means you won&rsquo;t spontanteously start using new versions
 of random packages in your app without intending to. Once your app is locked,
 it stays locked until you manually tell it to update the lockfile.</p>
@@ -311,7 +311,7 @@ You&rsquo;ve got a range but nothing exists inside it.</p>
 <h3 id="you-can-have-an-unstable-graph">You can have an unstable graph</h3>
 
 <p>This is, by far, the hairiest part of
-pub&rsquo;s version solving process. I&rsquo;ve described the process as &ldquo;build up the
+Tavern&rsquo;s version solving process. I&rsquo;ve described the process as &ldquo;build up the
 dependency graph and then solve all of the constraints and pick versions&rdquo;.
 But it doesn&rsquo;t actually work that way. How could you build up the <em>whole</em>
 dependency graph before you&rsquo;ve picked <em>any</em> versions? <em>The pubspecs
@@ -350,7 +350,7 @@ the abyss:</p>
 </code></pre></div>
 
 <p>In all of these cases, there is no set of concrete versions that will work for
-your app, and when this happens pub will report an error and tell you what&rsquo;s
+your app, and when this happens Tavern will report an error and tell you what&rsquo;s
 going on. It definitely will not try to leave you in some weird state where you
 think things can work but won&rsquo;t.</p>
 

@@ -12,11 +12,11 @@ title: "Pubspec Format"
 1. [SDK constraints](#sdk-constraints)
 {:.toc}
 
-Every pub package needs some metadata so it can specify its
-[dependencies](glossary.html#dependency). Pub packages that are shared with
+Every Tavern package needs some metadata so it can specify its
+[dependencies](glossary.html#dependency). Tavern packages that are shared with
 others also need to provide some other information so users can discover them.
-Pub stores this in a file named `pubspec.yaml`, which (naturally) is written in
-the [YAML](http://www.yaml.org/) language.
+Tavern stores this in a file named `pubspec.yaml`, which (naturally) is written
+in the [YAML](http://www.yaml.org/) language.
 
 At the top level are a series of fields. The currently supported ones are:
 
@@ -24,9 +24,9 @@ At the top level are a series of fields. The currently supported ones are:
   <dt>Name</dt>
   <dd>Required for every package.</dd>
   <dt>Version</dt>
-  <dd>Required for packages that will be hosted on pub.dartlang.org.</dd>
+  <dd>Required for packages that will be hosted on tavern.org.</dd>
   <dt>Description</dt>
-  <dd>Required for packages that will be hosted on pub.dartlang.org.</dd>
+  <dd>Required for packages that will be hosted on tavern.org.</dd>
   <dt>Author/Authors</dt>
   <dd>Optional.</dd>
   <dt>Homepage</dt>
@@ -150,8 +150,8 @@ with that URL. If provided, a link to it will be shown on your package's page.
   </a>
 </div>
 
-Finally, the pubspec's *raison d'être*: [dependencies](glossary.html#dependency). Here,
-you list each package that your package needs in order to work.
+Finally, the pubspec's *raison d'être*: [dependencies](glossary.html#dependency).
+Here, you list each package that your package needs in order to work.
 
 There are two separate sections. Dependencies under `dependencies:` are
 "regular" dependencies. They are packages that anyone using your package will
@@ -159,8 +159,8 @@ also need. Dependencies under `dev_dependencies` are
 [dev dependencies](glossary.html#dev-dependency). These are packages that are
 only needed in the development of your package itself.
 
-## SDK constraints
-
+<!-- ## SDK constraints
+TODO(pajamallama): Add note on Chrome/Dartium constraints.
 A package can indicate which versions of its dependencies it supports, but there
 is also another implicit dependency all packages have: the Dart SDK itself.
 Since the Dart platform evolves over time, a package may only work with certain
@@ -177,8 +177,7 @@ environment:
   sdk: ">=0.3.4"
 {% endhighlight %}
 
-Pub will try to find the latest version of a package whose SDK constraint works
-with the version of the Dart SDK that you have installed.
-
-[pubsite]: http://pub.dartlang.org
+Tavern will try to find the latest version of a package whose SDK constraint
+works with the version of the Dart SDK that you have installed.
+ -->
 [semantic versioning]: http://semver.org/

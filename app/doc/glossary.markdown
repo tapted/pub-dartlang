@@ -33,19 +33,6 @@ build.html) take _source_ assets (such as an HTML file, a CSS file, and
 several Dart files) and produce _generated_ assets (such as the same HTML and
 CSS files, plus a single JavaScript file).
 
-Assets fall into four groups, with some overlap:
-
-* Source asset: An actual, authored file on disk that `pub build` and
-  `pub serve` can find and use.
-* Generated asset: An asset (possibly the output of a
-  [transformer](#transformer)) that's either served by `pub serve` or saved
-  to disk by `pub build`.
-* Input asset: An asset that is the input to a transformer. An input asset
-  might be a source asset, or it might be the output of a transformer in a
-  previous phase.
-* Output asset: An asset that is created by a transformer. An output asset
-  might be a generated asset, or it might be the input to a transformer in a
-  later phase.
 
 ### Dependency
 
@@ -62,7 +49,7 @@ reference a Dart library in a `<script>` tag or pass it as a command line
 argument to the standalone Dart VM, that library is the entrypoint. In other
 words, it's usually the `.dart` file that contains `main()`.
 
-In the context of pub, an "entrypoint package" or "root package" is the root
+In the context of Tavern, an "entrypoint package" or "root package" is the root
 of a dependency graph. It will usually be an application. When you run your app,
 it's the entrypoint package. Every other package it depends on will not be an
 entrypoint in that context.
@@ -75,10 +62,10 @@ context, it *is* the entrypoint since your app isn't involved.
 ### Entrypoint directory
 
 A directory inside your package that is allowed to contain
-[Dart entrypoints](#entrypoint). Pub will ensure all of these directories get
+[Dart entrypoints](#entrypoint). Tavern will ensure all of these directories get
 a "packages" directory, which is needed for "package:" imports to work.
 
-Pub has a whitelist of these directories: `benchmark`, `bin`, `example`,
+Tavern has a whitelist of these directories: `benchmark`, `bin`, `example`,
 `test`, `tool`, and `web`. Any subdirectories of those (except `bin`) may also
 contain entrypoints.
 
@@ -120,53 +107,27 @@ ranges, the lock file comprehensively pins down the entire dependency graph to
 specific versions of packages. A lockfile ensures that you can recreate the
 exact configuration of packages used by an application.
 
-The lockfile is generated automatically for you by pub when you run
-[`pub get`](pub-get.html) or [`pub upgrade`](pub-upgrade.html). If your
+The lockfile is generated automatically for you when you run Tavern. If your
 package is an application package, you will typically check this into source
 control. For library packages, you usually won't.
 
-### SDK constraint
+<!-- ### SDK constraint
 
 The declared versions of the Dart SDK itself that a package declares that it
 supports. An SDK constraint is specified using normal
 [version constraint](#version-constraint) syntax, but in a special "environment"
 section [in the pubspec](pubspec.html#sdk-constraints).
-
-### Source
-
-A kind of place that pub can get packages from. A source isn't a specific place
-like pub.dartlang.org or some specific Git URL. Each source describes a general
-procedure for accessing a package in some way. For example, "git" is one source.
-The git source knows how to download packages given a Git URL. There are a few
-different [supported sources](dependencies.html#sources).
+ -->
 
 ### System cache
 
-When pub gets a remote package, it downloads it into a single "system cache"
-directory maintained by pub. When it generates a "packages" directory for a
-package, that only contains symlinks to the real packages in the system cache.
-On Mac and Linux, this directory defaults to `~/.pub-cache`. On Windows, it
-goes in `AppData\Roaming\Pub\Cache`.
+When Tavern gets a remote package, it downloads it into a single "system cache"
+directory maintained by Tavern.
 
 This means you only have to download a given version of a package once and can
 then reuse it in as many packages as you would like. It also means you can
 delete and regenerate your "packages" directory without having to access the
 network.
-
-### Transformer
-
-<div class="learn-more">
-  <a href="/doc/assets-and-transformers.html">
-    Learn more about transformers &rarr;
-  </a>
-</div>
-
-A transformer is a Dart object that converts input [assets](#asset) (such as
-Dart files or Polymer-formatted HTML) into output assets (such as JavaScript
-and HTML). The [`pub build`](pub-build.html) command puts the generated assets
-into files. The [`pub serve`](pub-serve.html) command, on the other hand,
-doesn't produce files; its generated assets are served directly by the dev
-server.
 
 ### Transitive dependency
 
@@ -203,7 +164,7 @@ allowed.
 
 <div class="learn-more">
   <a href="/doc/versioning.html">
-    Learn about pub's versioning philosophy &rarr;
+    Learn about Tavern's versioning philosophy &rarr;
   </a>
 </div>
 

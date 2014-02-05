@@ -29,22 +29,6 @@ build.html"><code>pub build</code></a> take <em>source</em> assets (such as an H
 several Dart files) and produce <em>generated</em> assets (such as the same HTML and
 CSS files, plus a single JavaScript file).</p>
 
-<p>Assets fall into four groups, with some overlap:</p>
-
-<ul>
-  <li>Source asset: An actual, authored file on disk that <code>pub build</code> and
-<code>pub serve</code> can find and use.</li>
-  <li>Generated asset: An asset (possibly the output of a
-<a href="#transformer">transformer</a>) that&rsquo;s either served by <code>pub serve</code> or saved
-to disk by <code>pub build</code>.</li>
-  <li>Input asset: An asset that is the input to a transformer. An input asset
-might be a source asset, or it might be the output of a transformer in a
-previous phase.</li>
-  <li>Output asset: An asset that is created by a transformer. An output asset
-might be a generated asset, or it might be the input to a transformer in a
-later phase.</li>
-</ul>
-
 <h3 id="dependency">Dependency</h3>
 
 <p>Another package that your package relies on. If your package wants to import
@@ -60,7 +44,7 @@ reference a Dart library in a <code>&lt;script&gt;</code> tag or pass it as a co
 argument to the standalone Dart VM, that library is the entrypoint. In other
 words, it&rsquo;s usually the <code>.dart</code> file that contains <code>main()</code>.</p>
 
-<p>In the context of pub, an &ldquo;entrypoint package&rdquo; or &ldquo;root package&rdquo; is the root
+<p>In the context of Tavern, an &ldquo;entrypoint package&rdquo; or &ldquo;root package&rdquo; is the root
 of a dependency graph. It will usually be an application. When you run your app,
 it&rsquo;s the entrypoint package. Every other package it depends on will not be an
 entrypoint in that context.</p>
@@ -73,10 +57,10 @@ context, it <em>is</em> the entrypoint since your app isn&rsquo;t involved.</p>
 <h3 id="entrypoint-directory">Entrypoint directory</h3>
 
 <p>A directory inside your package that is allowed to contain
-<a href="#entrypoint">Dart entrypoints</a>. Pub will ensure all of these directories get
+<a href="#entrypoint">Dart entrypoints</a>. Tavern will ensure all of these directories get
 a &ldquo;packages&rdquo; directory, which is needed for &ldquo;package:&rdquo; imports to work.</p>
 
-<p>Pub has a whitelist of these directories: <code>benchmark</code>, <code>bin</code>, <code>example</code>,
+<p>Tavern has a whitelist of these directories: <code>benchmark</code>, <code>bin</code>, <code>example</code>,
 <code>test</code>, <code>tool</code>, and <code>web</code>. Any subdirectories of those (except <code>bin</code>) may also
 contain entrypoints.</p>
 
@@ -118,53 +102,27 @@ ranges, the lock file comprehensively pins down the entire dependency graph to
 specific versions of packages. A lockfile ensures that you can recreate the
 exact configuration of packages used by an application.</p>
 
-<p>The lockfile is generated automatically for you by pub when you run
-<a href="pub-get.html"><code>pub get</code></a> or <a href="pub-upgrade.html"><code>pub upgrade</code></a>. If your
+<p>The lockfile is generated automatically for you when you run Tavern. If your
 package is an application package, you will typically check this into source
 control. For library packages, you usually won&rsquo;t.</p>
 
-<h3 id="sdk-constraint">SDK constraint</h3>
+<!-- ### SDK constraint
 
-<p>The declared versions of the Dart SDK itself that a package declares that it
+The declared versions of the Dart SDK itself that a package declares that it
 supports. An SDK constraint is specified using normal
-<a href="#version-constraint">version constraint</a> syntax, but in a special &ldquo;environment&rdquo;
-section <a href="pubspec.html#sdk-constraints">in the pubspec</a>.</p>
-
-<h3 id="source">Source</h3>
-
-<p>A kind of place that pub can get packages from. A source isn&rsquo;t a specific place
-like pub.dartlang.org or some specific Git URL. Each source describes a general
-procedure for accessing a package in some way. For example, &ldquo;git&rdquo; is one source.
-The git source knows how to download packages given a Git URL. There are a few
-different <a href="dependencies.html#sources">supported sources</a>.</p>
+[version constraint](#version-constraint) syntax, but in a special "environment"
+section [in the pubspec](pubspec.html#sdk-constraints).
+ -->
 
 <h3 id="system-cache">System cache</h3>
 
-<p>When pub gets a remote package, it downloads it into a single &ldquo;system cache&rdquo;
-directory maintained by pub. When it generates a &ldquo;packages&rdquo; directory for a
-package, that only contains symlinks to the real packages in the system cache.
-On Mac and Linux, this directory defaults to <code>~/.pub-cache</code>. On Windows, it
-goes in <code>AppData\Roaming\Pub\Cache</code>.</p>
+<p>When Tavern gets a remote package, it downloads it into a single &ldquo;system cache&rdquo;
+directory maintained by Tavern.</p>
 
 <p>This means you only have to download a given version of a package once and can
 then reuse it in as many packages as you would like. It also means you can
 delete and regenerate your &ldquo;packages&rdquo; directory without having to access the
 network.</p>
-
-<h3 id="transformer">Transformer</h3>
-
-<div class="learn-more">
-  <a href="/doc/assets-and-transformers.html">
-    Learn more about transformers &rarr;
-  </a>
-</div>
-
-<p>A transformer is a Dart object that converts input <a href="#asset">assets</a> (such as
-Dart files or Polymer-formatted HTML) into output assets (such as JavaScript
-and HTML). The <a href="pub-build.html"><code>pub build</code></a> command puts the generated assets
-into files. The <a href="pub-serve.html"><code>pub serve</code></a> command, on the other hand,
-doesn&rsquo;t produce files; its generated assets are served directly by the dev
-server.</p>
 
 <h3 id="transitive-dependency">Transitive dependency</h3>
 
@@ -201,7 +159,7 @@ allowed.</p>
 
 <div class="learn-more">
   <a href="/doc/versioning.html">
-    Learn about pub's versioning philosophy &rarr;
+    Learn about Tavern's versioning philosophy &rarr;
   </a>
 </div>
 

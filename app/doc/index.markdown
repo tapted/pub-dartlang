@@ -2,7 +2,7 @@
 title: "Getting Started"
 ---
 
-1. [Installing and configuring pub](#installing-and-configuring-pub)
+1. [Installing and configuring tavern](#installing-and-configuring-pub)
 1. [Creating a package](#creating-a-package)
 1. [Adding a dependency](#adding-a-dependency)
 1. [Getting dependencies](#getting-dependencies)
@@ -11,66 +11,40 @@ title: "Getting Started"
 1. [Publishing a package](#publishing-a-package)
 {:.toc}
 
-*Pub* is a package manager for Dart. It helps you reuse existing Dart code
-and bundle your Dart apps and libraries so that you can reuse and share them
-with other people. Pub handles versioning and dependency management so that you
-can ensure that your app runs on other machines exactly the same as it does on
-yours.
+*Tavern* is a package manager for Chrome Apps. It helps you reuse existing code
+and bundle your apps and libraries so that you can reuse and share them
+with other people. Tavern handles versioning and dependency management so that
+you can ensure that your app runs on other machines exactly the same as it does
+on yours.
 
-To **find** a package that's on pub.dartlang.org,
+To **find** a package that's on tavern.org,
 use the Search box at the top right of this page.
 
-To **use** a package that's on pub.dartlang.org:
+To **use** a package that's on tavern.org:
 
 1. Create a `pubspec.yaml` file
    (if one doesn't already exist)
    and list the package as dependency.
-   For example, to use the [web_ui](/packages/web_ui) package
+   For example, to use the [jquery](/packages/jquery) package
    in an app, put this in a top-level file named `pubspec.yaml`:
 
         name: my_app
         dependencies:
-          web_ui: any
+          jquery: any
 
-1. Run `pub get`, either on the command line
-   or through the Dart Editor menu: Tools > Pub Get.
+1. Run tavern (typically through the Spark IDE).
 
 1. Import one or more libraries from the package:
 
-        import 'package:web_ui/web_ui.dart';
+        <script src="packages/jquery/jquery.js"></script>
 
 For details and pointers to more documentation, read on.
 
-## Installing and configuring pub
+## Installing and configuring tavern
 
-Pub is in the [Dart SDK](http://www.dartlang.org/docs/sdk/),
-which you can download by itself or as part of
-[Dart Editor](http://www.dartlang.org/docs/editor/).
-You can use pub through
-[Dart Editor](http://www.dartlang.org/docs/editor/), or through the
-`pub` command-line app, which lives inside the `bin` directory of the Dart SDK.
-
-To use pub and other tools on the command line,
-you might want to add the SDK's `bin` directory to your system path.
-For example, on Mac and Linux:
-
-    export PATH=$PATH:<path to sdk>/bin
-
-For Windows, here's an equivalent in PowerShell:
-
-    [Environment]::SetEnvironmentVariable("PATH", "$env:PATH;<path to sdk>\bin", "User")
-
-In the examples above, `<path to sdk>` is the absolute path
-to the main directory of the SDK. For example,
-if you install Dart Editor in
-`/home/me/dart`, then add this to your PATH:
-
-    /home/me/dart/dart-sdk/bin
-
-On Windows, you can also set the system PATH environment variable through the
-Control Panel. A quick
-[search](https://www.google.com/search?q=windows+set+environment+variable)
-should find the instructions for your version of Windows.
+The Tavern app can be downloaded from the Chrome Apps Webstore. Perhaps more
+convenient is simply to install the
+[Spark IDE](https://github.com/dart-lang/spark) and run Tavern from there.
 
 ## Creating a package
 
@@ -80,13 +54,13 @@ should find the instructions for your version of Windows.
   </a>
 </div>
 
-A **package** in pub is a directory that contains Dart code and any other stuff
+A **package** in Tavern is a directory that contains code and any other stuff
 that goes along with it like resources, tests, and docs. Frameworks and
 reusable libraries are obviously packages, but applications are too. If your
-app wants to use pub packages, it needs to be a package too.
+app wants to use Tavern packages, it needs to be a package too.
 
-While everything is a package in pub, there are two flavors of packages that are
-used slightly differently in practice. A [**library
+While everything is a package in Tavern, there are two flavors of packages that
+are used slightly differently in practice. A [**library
 package**](glossary.html#library-package) is a package that is intended to be
 reused by other packages. It will usually have code that other packages import,
 and it will likely be hosted somewhere that people can get to. An [**application
@@ -116,7 +90,7 @@ Behold, the simplest possible `pubspec.yaml`:
 name: my_app
 {% endhighlight %}
 
-Now `my_app` is a pub package!
+Now `my_app` is a Tavern package!
 
 ## Adding a dependency
 
@@ -126,7 +100,7 @@ Now `my_app` is a pub package!
   </a>
 </div>
 
-One of pub's main jobs is managing **dependencies**. A dependency is just
+One of Tavern's main jobs is managing **dependencies**. A dependency is just
 another package that your package relies on. If your app is using some
 transformation library called "transmogrify", then your app package will depend
 on the `transmogrify` package.
@@ -146,28 +120,18 @@ Here, we are declaring a dependency on the (fictional) `transmogrify` package.
 
 <div class="learn-more">
   <a href="/doc/pub-get.html">
-    Learn more about <tt>pub get</tt> &rarr;
+    Learn more about downloading packages &rarr;
   </a>
 </div>
 
-Once you've declared a dependency, you then tell pub to get it for you. If
-you're using the Editor, select "Pub Get" from the "Tools" menu. If you're
-rocking the command line, do:
+Once you've declared a dependency, you then tell Tavern to get it for you. If
+you're Spark, select `pubspec.yaml` and click the "Run" button.
 
-    $ cd path/to/your_app
-    $ pub get
-
-<aside class="alert alert-warning">
-Today, this command must be run from the directory containing
-<tt>pubspec.yaml</tt>. In the future, you will be able to run it from any
-sub-directory of the package.
-</aside>
-
-When you do this, pub will create a `packages` directory in the same directory
-as `pubspec.yaml`. In there, it will place each package that your package
-depends on (these are called your **immediate dependencies**). It will also
-look at all of those packages and get everything *they* depend on, recursively
-(these are your **transitive dependencies**).
+When you do this, Tavern will create a `packages` directory in the same
+directory as `pubspec.yaml`. In there, it will place each package that your
+package depends on (these are called your **immediate dependencies**). It will
+also look at all of those packages and get everything *they* depend on,
+recursively (these are your **transitive dependencies**).
 
 When this is done, you will have a `packages` directory that contains every
 single package your program needs in order to run.
@@ -175,8 +139,10 @@ single package your program needs in order to run.
 ## Importing code from a dependency
 
 Now that you have a dependency wired up, you want to be able to use code from
-it. To access a library in a another package, you will import it using the
-`package:` scheme:
+it. Typically this is done by referring to the file at location
+`packages\package_name\specific_file_name`.
+
+In Dart though you can import it using the `package:` scheme:
 
 {% highlight dart %}
 import 'package:transmogrify/transmogrify.dart';
@@ -190,7 +156,7 @@ to see if it exposes anything different for you to import.
 <aside class="alert alert-info">
 This works by looking inside the generated <tt>packages</tt> directory. If you
 get an error, the directory may be out of date. Fix it by running
-<tt>pub get</tt> whenever you change your pubspec.
+Tavern whenever you change your pubspec.
 </aside>
 
 You can also use this style to import libraries from within your own package.
@@ -221,27 +187,12 @@ import 'package:transmogrify/parser.dart';
 This way, the import can always get to `parser.dart` regardless of where the
 importing file is.
 
-<!-- TODO(rnystrom): Enable this when that doc exists.
-<div class="learn-more">
-  <a href="/doc/package-scheme.html">
-  Learn more about the <tt>package:</tt> scheme
-    <i class="icon-hand-right icon-white">&nbsp;</i>
-  </a>
-</div>
--->
-
 ## Upgrading a dependency
 
-<div class="learn-more">
-  <a href="/doc/pub-upgrade.html">
-  Learn more about <tt>pub upgrade</tt> &rarr;
-  </a>
-</div>
-
-The first time you get a new dependency for your package, pub will download the
-latest version of it that's compatible with your other dependencies. It then
+The first time you get a new dependency for your package, Tavern will download
+the latest version of it that's compatible with your other dependencies. It then
 locks your package to *always* use that version by creating a **lockfile**.
-This is a file named `pubspec.lock` that pub creates and stores next to your
+This is a file named `pubspec.lock` that Tavern creates and stores next to your
 pubspec. It lists the specific versions of each dependency (immediate and
 transitive) that your package uses.
 
@@ -250,39 +201,28 @@ That way, everyone hacking on your app ensures they are using the same versions
 of all of the packages. This also makes sure you use the same versions of stuff
 when you deploy your app to production.
 
-When you are ready to upgrade your dependencies to the latest versions, do:
-
-    $ pub upgrade
-
-This tells pub to regenerate the lockfile using the newest available versions of
-your package's dependencies. If you only want to upgrade a specific dependency,
-you can specify that too:
-
-    $ pub upgrade transmogrify
-
-This upgrades `transmogrify` to the latest version but leaves everything else
-the same.
+When you are ready to upgrade your dependencies to the latest versions, delete
+the `pubspec.lock` file and re-run Tavern.
 
 ## Publishing a package
 
 <div class="learn-more">
   <a href="/doc/pub-lish.html">
-  Learn more about <tt>pub publish</tt> &rarr;
+  Learn more about publishing packages &rarr;
   </a>
 </div>
 
-Pub isn't just for using other people's packages. It also allows you to share
+Tavern isn't just for using other people's packages. It also allows you to share
 your packages with the world. Once you've written some useful code and you want
-everyone else to be able to use it, just run:
+everyone else to be able to use it, then look at the
+[publish instructions](/doc/pub-lish.html) for how to share your package.
 
-    $ pub publish
-
-Pub will check to make sure that your package follows the [pubspec
+Tavern will check to make sure that your package follows the [pubspec
 format](pubspec.html) and [package layout conventions](package-layout.html), and
-then upload your package to [pub.dartlang.org](http://pub.dartlang.org). Then
-any Pub user will be able to download it or depend on it in their pubspecs. For
-example, if you just published version 1.0.0 of a package named `transmogrify`,
-then they can write:
+then upload your package to [tavern.org](http://tavern.org). Then
+any Tavern user will be able to download it or depend on it in their pubspecs.
+For example, if you just published version 1.0.0 of a package named
+`transmogrify`, then they can write:
 
 {% highlight yaml %}
 dependencies:
@@ -291,6 +231,7 @@ dependencies:
 
 Keep in mind that publishing is forever. As soon as you publish your awesome
 package, users will be able to depend on it. Once they start doing that,
-removing the package would break theirs. To avoid that, pub strongly discourages
-deleting packages. You can always upload new versions of your package, but old
-ones will continue to be available for users that aren't ready to upgrade yet.
+removing the package would break theirs. To avoid that, Tavern strongly
+discourages deleting packages. You can always upload new versions of your
+package, but old ones will continue to be available for users that aren't ready
+to upgrade yet.

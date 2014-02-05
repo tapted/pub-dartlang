@@ -20,7 +20,7 @@ same thing the same way, it makes it easier for us to learn our way around
 each other's work. It also makes it easier to write tools that can automatically
 do stuff for us.
 
-When you build a Pub package, we have a set of conventions we encourage you to
+When you build a Tavern package, we have a set of conventions we encourage you to
 follow. They describe how you organize the files and directories within your
 package, and how to name things. You don't have to have every single thing
 these guidelines specify. If your package doesn't have binaries, it doesn't
@@ -71,7 +71,7 @@ would look like:
 [application package](glossary.html#application-package).
 
 \** The `packages` directories will exist locally after you're run
-`pub get`, but won't be checked into source control.
+Tavern, but won't be checked into source control.
 
 ## The basics
 
@@ -89,8 +89,7 @@ Every package will have a [**pubspec**](pubspec.html), a file named
 `pubspec.yaml`, in the root directory of the package. That's what *makes* it a
 package.
 
-Once you've run [`pub get`](pub-get.html) or [`pub
-upgrade`](pub-upgrade.html) on the package, you will also have a **lockfile**,
+Once you've run [Tavern](pub-get.html) on the package, you will also have a **lockfile**,
 named `pubspec.lock`. If your package is an [application
 package](glossary.html#application-package), this will be checked into source
 control. Otherwise, it won't be.
@@ -99,9 +98,9 @@ control. Otherwise, it won't be.
       packages/
         ...
 
-Running pub will also generate a `packages` directory. You will *not* check
+Running Tavern will also generate a `packages` directory. You will *not* check
 this into source control, and you won't need to worry too much about its
-contents. Consider it pub magic, but not scary magic.
+contents. Consider it Tavern magic, but not scary magic.
 
 The open source community has a few other files that commonly appear at the top
 level of a project: `LICENSE`, `AUTHORS`, etc. If you use any of those, they can
@@ -113,8 +112,8 @@ go in the top level of the package too.
       README.md
 
 One file that's very common in open source is a README file that
-describes the project. This is especially important in pub. When you upload
-to [pub.dartlang.org](/), your README will be shown on the page for your
+describes the project. This is especially important in Tavern. When you upload
+to [tavern.org](/), your README will be shown on the page for your
 package. This is the perfect place to introduce people to your code.
 
 If your README ends in `.md`, `.markdown`, or `.mdown`, it will be parsed as
@@ -188,22 +187,6 @@ Users can reference another package's assets using URLs that contain
 containing the asset and `<path>` is the relative path to the asset within that
 package's `asset` directory.
 
-<aside class="alert alert-warning">
-
-<p>The mechanics of referencing assets are still being implemented. URLs that
-contain <tt>assets/</tt> are handled by <a href="pub-serve.html"><tt>pub
-serve</tt></a>.</p>
-
-<p>The <a href="pub-build.html"><tt>pub build</tt></a> command also copies
-assets to an <tt>assets</tt> directory, but this will <em>only</em> be in the
-root directory of the output, so you must make sure that your <tt>assets/</tt>
-URL correctly resolves to that directory and not a subdirectory.</p>
-
-<p>We don't currently have a solution for referencing assets in command-line
-Dart applications.</p>
-
-</aside>
-
 Note that `assets` is plural in the URL. This is a bit like the split between
 `lib` and `packages`. The former is the name of the *directory in the package*,
 the latter is the *name you use to reference it*.
@@ -214,10 +197,6 @@ styles. In an HTML file in your package, you can add:
 {% highlight html %}
 <link href="assets/enchilada/guacamole.css" rel="stylesheet">
 {% endhighlight %}
-
-When you run your application using [`pub serve`](pub-serve.html), or build it
-to something deployable using [`pub build`](pub-build.html), Pub will copy over
-any referenced assets that your package depends on.
 
 ## Implementation files
 
@@ -258,7 +237,7 @@ your package in its [pubspec](pubspec.html).
         main.dart
         style.css
 
-Dart is a web language, so many pub packages will be doing web stuff. That
+Dart is a web language, so many Tavern packages will be doing web stuff. That
 means HTML, CSS, images, and, heck, probably even some JavaScript. All of that
 goes into your package's `web` directory. You're free to organize the contents
 of that to your heart's content. Go crazy with subdirectories if that makes you
@@ -272,26 +251,6 @@ imports can be resolved correctly.
 (You may be asking yourself, "Self, where should I put my web-based example
 programs? `example` or `web`?" Put those in `example`.)
 
-## Command-line apps
-
-    enchilada/
-      bin/
-        enchilada
-
-Some packages define programs that can be run directly from the command line.
-These can be shell scripts or any other scripting language, including Dart.
-The `pub` application itself is one example: it's a simple shell script that
-invokes `pub.dart`.
-
-If your package defines stuff like this, put it in a directory named `bin`.
-
-<aside class="alert alert-note">
-
-At some point, pub will support automatically adding that directory to your
-system path so that these scripts can be easily invoked.
-
-</aside>
-
 ## Tests and benchmarks
 
     enchilada/
@@ -299,7 +258,7 @@ system path so that these scripts can be easily invoked.
         enchilada_test.dart
         tortilla_test.dart
 
-Every self-respecting package should have tests. With pub, the convention is
+Every self-respecting package should have tests. With Tavern, the convention is
 that these go in a `test` directory (or some directory inside it if you like)
 and have `_test` at the end of their file names.
 

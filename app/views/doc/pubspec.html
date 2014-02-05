@@ -9,11 +9,11 @@
   <li><a href="#sdk-constraints">SDK constraints</a></li>
 </ol>
 
-<p>Every pub package needs some metadata so it can specify its
-<a href="glossary.html#dependency">dependencies</a>. Pub packages that are shared with
+<p>Every Tavern package needs some metadata so it can specify its
+<a href="glossary.html#dependency">dependencies</a>. Tavern packages that are shared with
 others also need to provide some other information so users can discover them.
-Pub stores this in a file named <code>pubspec.yaml</code>, which (naturally) is written in
-the <a href="http://www.yaml.org/">YAML</a> language.</p>
+Tavern stores this in a file named <code>pubspec.yaml</code>, which (naturally) is written
+in the <a href="http://www.yaml.org/">YAML</a> language.</p>
 
 <p>At the top level are a series of fields. The currently supported ones are:</p>
 
@@ -21,9 +21,9 @@ the <a href="http://www.yaml.org/">YAML</a> language.</p>
   <dt>Name</dt>
   <dd>Required for every package.</dd>
   <dt>Version</dt>
-  <dd>Required for packages that will be hosted on pub.dartlang.org.</dd>
+  <dd>Required for packages that will be hosted on tavern.org.</dd>
   <dt>Description</dt>
-  <dd>Required for packages that will be hosted on pub.dartlang.org.</dd>
+  <dd>Required for packages that will be hosted on tavern.org.</dd>
   <dt>Author/Authors</dt>
   <dd>Optional.</dd>
   <dt>Homepage</dt>
@@ -143,8 +143,8 @@ with that URL. If provided, a link to it will be shown on your package&rsquo;s p
   </a>
 </div>
 
-<p>Finally, the pubspec&rsquo;s <em>raison d&rsquo;être</em>: <a href="glossary.html#dependency">dependencies</a>. Here,
-you list each package that your package needs in order to work.</p>
+<p>Finally, the pubspec&rsquo;s <em>raison d&rsquo;être</em>: <a href="glossary.html#dependency">dependencies</a>.
+Here, you list each package that your package needs in order to work.</p>
 
 <p>There are two separate sections. Dependencies under <code>dependencies:</code> are
 &ldquo;regular&rdquo; dependencies. They are packages that anyone using your package will
@@ -152,23 +152,25 @@ also need. Dependencies under <code>dev_dependencies</code> are
 <a href="glossary.html#dev-dependency">dev dependencies</a>. These are packages that are
 only needed in the development of your package itself.</p>
 
-<h2 id="sdk-constraints">SDK constraints</h2>
-
-<p>A package can indicate which versions of its dependencies it supports, but there
+<!-- ## SDK constraints
+TODO(pajamallama): Add note on Chrome/Dartium constraints.
+A package can indicate which versions of its dependencies it supports, but there
 is also another implicit dependency all packages have: the Dart SDK itself.
 Since the Dart platform evolves over time, a package may only work with certain
-versions of it.</p>
+versions of it.
 
-<p>A package can specify that using an <em>SDK constraint</em>. This goes inside a
-separate top-level &ldquo;environment&rdquo; field in the pubspec and uses the same
-<a href="dependencies.html#version-constraints">version constraint</a> syntax as
+A package can specify that using an *SDK constraint*. This goes inside a
+separate top-level "environment" field in the pubspec and uses the same
+[version constraint](dependencies.html#version-constraints) syntax as
 dependencies. For example, this constraint says that this package works with any
-Dart SDK from 0.3.4 or later:</p>
+Dart SDK from 0.3.4 or later:
+
 
 <div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">environment</span><span class="p-Indicator">:</span>
   <span class="l-Scalar-Plain">sdk</span><span class="p-Indicator">:</span> <span class="s">&quot;&gt;=0.3.4&quot;</span>
 </code></pre></div>
 
-<p>Pub will try to find the latest version of a package whose SDK constraint works
-with the version of the Dart SDK that you have installed.</p>
 
+Tavern will try to find the latest version of a package whose SDK constraint
+works with the version of the Dart SDK that you have installed.
+ -->

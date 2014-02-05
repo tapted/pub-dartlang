@@ -14,10 +14,10 @@ title: "Versioning Philosophy"
 1. [Summary](#summary)
 {:.toc}
 
-One of pub's main jobs is helping you work with versioning. Here, I'll
-explain a bit about the history of versioning and pub's approach to it.
+One of Tavern's main jobs is helping you work with versioning. Here, I'll
+explain a bit about the history of versioning and Tavern's approach to it.
 Consider this to be advanced information. If you want a better picture of *why*
-pub was designed the way it was, read on. If you just want to *use* pub, the
+Tavern was designed the way it was, read on. If you just want to *use* Tavern, the
 [other docs](index.html) will serve you better.
 
 Modern software development, especially web development, leans heavily on
@@ -135,7 +135,7 @@ wiggle room to move our dependencies forward to newer versions. As long as there
 is overlap in their ranges, we can still find a single version that makes them
 both happy.
 
-This is the model that [bundler](http://gembundler.com/) follows, and is pub's
+This is the model that [bundler](http://gembundler.com/) follows, and is Tavern's
 model too. When you add a dependency in your pubspec, you can specify a *range*
 of versions that you can accept. If the pubspec for `widgets` looked like this:
 
@@ -188,10 +188,10 @@ When you define your package, you list its
 packages it itself uses. For each one, you specify the range of versions it
 allows. Each of those dependent packages may in turn have their own
 dependencies (called
-[**transitive dependencies**](glossary.html#transitive-dependency). Pub will
+[**transitive dependencies**](glossary.html#transitive-dependency). Tavern will
 traverse these and  build up the entire deep dependency graph for your app.
 
-For each package in the graph, pub looks at everything that depends on it. It
+For each package in the graph, Tavern looks at everything that depends on it. It
 gathers together all of their version constraints and tries to simultaneously
 solve them. (Basically, it intersects their ranges.) Then it looks at the
 actual versions that have been released for that package and selects the best
@@ -213,7 +213,7 @@ The developers of `collections` have released these versions of it:
     1.8.2
     1.9.0
 
-The highest version number that fits in all of those ranges is `1.8.2`, so pub
+The highest version number that fits in all of those ranges is `1.8.2`, so Tavern
 picks that. That means your app *and every package your app uses* will all use
 `collections 1.8.2`.
 
@@ -264,19 +264,19 @@ containing app.
 
 ## Lockfiles
 
-So once pub has solved your app's version constraints, then what? The end
+So once Tavern has solved your app's version constraints, then what? The end
 result is a complete list of every package that your app depends on either
 directly or indirectly and the best version of that package that will work with
 your app's constraints.
 
-Pub takes that and writes it out to a **lockfile** in your app's directory
-called `pubspec.lock`. When pub builds the "packages" directory your app, it
+Tavern takes that and writes it out to a **lockfile** in your app's directory
+called `pubspec.lock`. When Tavern builds the "packages" directory your app, it
 uses the lockfile to know what versions of each package to pull in. (And if
 you're curious to see what versions it selected, you can read the lockfile to
 find out.)
 
-The next important thing pub does is it *stops touching the lockfile*. Once
-you've got a lockfile for your app, pub won't mess with it until you tell it to.
+The next important thing Tavern does is it *stops touching the lockfile*. Once
+you've got a lockfile for your app, Tavern won't mess with it until you tell it to.
 This is important. It means you won't spontanteously start using new versions
 of random packages in your app without intending to. Once your app is locked,
 it stays locked until you manually tell it to update the lockfile.
@@ -316,7 +316,7 @@ You've got a range but nothing exists inside it.
 ### You can have an unstable graph
 
 This is, by far, the hairiest part of
-pub's version solving process. I've described the process as "build up the
+Tavern's version solving process. I've described the process as "build up the
 dependency graph and then solve all of the constraints and pick versions".
 But it doesn't actually work that way. How could you build up the *whole*
 dependency graph before you've picked *any* versions? *The pubspecs
@@ -359,7 +359,7 @@ dependencies:
 {% endhighlight %}
 
 In all of these cases, there is no set of concrete versions that will work for
-your app, and when this happens pub will report an error and tell you what's
+your app, and when this happens Tavern will report an error and tell you what's
 going on. It definitely will not try to leave you in some weird state where you
 think things can work but won't.
 

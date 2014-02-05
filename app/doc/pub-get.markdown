@@ -1,25 +1,27 @@
 ---
-title: "Command: Get"
+title: "Downloading packages from Tavern"
 ---
 
-    $ pub get [--offline]
-
-This command gets all the dependencies listed in the
+The most common use case is to download all the dependencies listed in the
 [`pubspec.yaml`](pubspec.html) file in the current working directory, as well as
-their [transitive dependencies](glossary.html#transitive-dependency), and places
-them in a `packages` directory located next to the pubspec. For example:
-
-    $ pub get
-    Got dependencies!
+their [transitive dependencies](glossary.html#transitive-dependency), and place
+them in a `packages` directory located next to the pubspec.
 
 Once the dependencies are acquired, they may be referenced in Dart code. For
-example, if a package depends on `unittest`:
+example, if a Chrome App depends on `git`:
 
 {% highlight dart %}
-import "package:unittest/unittest.dart;
+import "package:git/git.dart;
 {% endhighlight %}
 
-When `pub get` gets new dependencies, it writes a
+The dependencies could be used in any aspect of Chrome App development like in
+the HTML. A common example is a Chrome App that depends on `jquery`:
+
+{% highlight html %}
+    <script src="packages/jquery/jquery.js"></script>
+{% endhighlight %}
+
+When Tavern gets new dependencies, it writes a
 [lockfile](glossary.html#lockfile) to ensure that future gets will use the
 same versions of those dependencies. Application packages should check in the
 lockfile to source control; this ensures the application will use the exact same
@@ -27,16 +29,14 @@ versions of all dependencies for all developers and when deployed to production.
 Library packages should not check in the lockfile, though, since they're
 expected to work with a range of dependency versions.
 
-If a lockfile already exists, `pub get` uses the versions of dependencies
-locked in it if possible. If a dependency isn't locked, pub will get the
+If a lockfile already exists, Tavern uses the versions of dependencies
+locked in it if possible. If a dependency isn't locked, Tavern will get the
 latest version of that dependency that satisfies all the [version
-constraints](glossary.html#version-constraint). This is the primary difference
-between `pub get` and [`pub upgrade`](pub-upgrade.html), which always tries to
-get the latest versions of all dependencies.
+constraints](glossary.html#version-constraint).
 
 ## Getting a new dependency
 
-If a dependency is added to the pubspec and then `pub get` is run, it will
+If a dependency is added to the pubspec and then Tavern is run, it will
 get the new dependency and any of its transitive dependencies and place them in
 the `packages` directory. However, it won't change the versions of any
 already-acquired dependencies unless that's necessary to get the new
@@ -44,7 +44,7 @@ dependency.
 
 ## Removing a dependency
 
-If a dependency is removed from the pubspec and then `pub get` is run, it will
+If a dependency is removed from the pubspec and then Tavern is run, it will
 remove the dependency from the `packages` directory, thus making it
 unavailable for importing. Any transitive dependencies of the removed dependency
 will also be removed, as long as no remaining immediate dependencies also depend
@@ -54,12 +54,12 @@ already-acquired dependencies.
 ## Linked `packages` directories
 
 Every [entrypoint](glossary.html#entrypoint) in a package needs to be next to a
-`packages` directory in order for it to import packages acquired by Pub.
+`packages` directory in order for it to import packages acquired by Tavern.
 However, it's not convenient to put every entrypoint at the top level of the
 package alongside the main `packages` directory. You may have example scripts or
 tests that you want to be able to run from subdirectories.
 
-`pub get` solves this issue by creating additional `packages` directories
+Tavern solves this issue by creating additional `packages` directories
 that link to the main `packages` directory at the root of your package. It
 assumes your package is laid out according to the [package layout
 guide](package-layout.html), and creates a linked `packages` directory in
@@ -67,33 +67,22 @@ guide](package-layout.html), and creates a linked `packages` directory in
 
 ## The system package cache
 
-Dependencies are not physically stored in the `packages` directory that pub
-creates. Dependencies downloaded over the internet, such as those from Git and
-[pub.dartlang.org](http://pub.dartlang.org), are stored in a system-wide cache
-and linked to from the `packages` directory. This means that if multiple
-packages use the same version of the same dependency, it will only need to be
-downloaded and stored locally once. It also means that it's safe to delete the
-`packages` directory without worrying about re-downloading packages.
-
-By default, the system package cache is located in the `.pub-cache` subdirectory
-of your home directory. However, it may be configured by setting the `PUB_CACHE`
-environment variable before running Pub.
+Dependencies are downloaded over the internet from [tavern.org]
+(http://tavern.org) are stored in a system-wide cache and linked to from the
+`packages` directory. This means that if multiple packages use the same version
+of the same dependency, it will only need to bedownloaded and stored locally
+once. It also means that it's safe to delete the `packages` directory without
+worrying about re-downloading packages. By default, the system package cache is
+located inside tavern's HTML5 sandboxed
+filesystem.
 
 ## Getting while offline
 
-If you don't have network access, you can still run `pub get`. Since pub
+If you don't have network access, you can still run Tavern. Since Tavern
 downloads packages to a central cache shared by all packages on your system, it
 can often find previous-downloaded packages there without needing to hit the
 network.
 
-However, by default, pub will always try to go online when you get if you
+However, by default, Tavern will always try to go online when you get if you
 have any hosted dependencies so that it can see if newer versions of them are
-available. If you don't want it to do that, pass the `--offline` flag when
-running pub. In this mode, it will only look in your local package cache and
-try to find a set of versions that work with your package from what's already
 available.
-
-Keep in mind that pub *will* generate a lockfile after it does this. If the
-only version of some dependency in your cache happens to be old, this will lock
-your app to that version. The next time you are online, you will likely want to
-run [`pub upgrade`](pub-upgrade.html) to upgrade to a later version.
